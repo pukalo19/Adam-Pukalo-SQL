@@ -1,0 +1,28 @@
+--Create a Thift store database
+
+CREATE TABLE store (id INTEGER PRIMARY KEY, size TEXT, item TEXT, price INTEGER,color TEXT);
+
+INSERT INTO store VALUES (1,"Extra Large","Dress",8, "Blue");
+INSERT INTO store VALUES (2,"Small", "Jeans", 14, "Blue");
+INSERT INTO store VALUES (3,"Large", "T-Shirt", 12, "Red");
+INSERT INTO store VALUES (4, "Medium", "Shorts", 11, "Brown");
+INSERT INTO store VALUES (5, "Large", "T-Shirt",18, "White");
+INSERT INTO store VALUES (6,"Medium", "Sweater", 16, "Grey");
+INSERT INTO store VALUES (7,"Small","Jacket",24,"Black");
+INSERT INTO store VALUES (8, "Medium","Jacket",26,"Green");
+INSERT INTO store VALUES (9, "Small", "Jeans",16, "Blue");
+INSERT INTO store VALUES (10,"Large","Sweater",15,"Purple");
+INSERT INTO store VALUES (11,"Medium", "T-Shirt" ,9,"Orange");
+INSERT INTO store VALUES (12,"Extra Large","Jeans",21,"Blue");
+INSERT INTO store VALUES (13, "Small", "Trousers",18,"Grey");
+INSERT INTO store VALUES (14, "Medium", "Sweater",17,"Red");
+INSERT INTO store VALUES (15, "Medium", "Sweater",17,"black");
+
+--display the database ordered by price. 
+SELECT * FROM store ORDER BY price desc; 
+
+--what is the avg price of jeans? 
+SELECT AVG(price) "avg sweater price" FROM store where item='Sweater'; 
+
+--what are the most 5 expensive items? 
+SELECT item, price, size FROM store order by price desc limit 5; 
