@@ -1,0 +1,41 @@
+CREATE TABLE movie_stars (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    marital_status TEXT,
+    spouse TEXT);
+INSERT INTO movie_stars (name, marital_status, spouse)
+VALUES ('Christian Bale', 'Married', 'Sibi Blažić'),
+       ('Matthew McConaughey', 'Married', 'Don Gummer'),
+       ('Denzel Washington', 'Married', 'Pauletta Pearson'),
+       ('Scarlett Johansson', 'Married', 'Colin Jost'),
+       ('Leonardo Dicaprio', 'Not Married', null),
+       ('Ana de Armas', 'Not Married', null);
+
+CREATE TABLE movies (
+id INTEGER PRIMARY KEY,
+title TEXT,
+year INTEGER,
+actor_id INTEGER,
+FOREIGN KEY (actor_id) REFERENCES movie_stars(id)
+);
+INSERT INTO movies (title, year, actor_id) 
+VALUES ('War Dogs', 2016, 6),
+       ('Jo Jo Rabbit', 2019, 4),
+       ('Training Day', 2001, 3),
+       ('The Titanic', 1997, 5),
+       ('Intersellar', 2014, 2),
+       ('American Hustle', 2013, 1),
+       ('The Prestige',2006, 5),
+       ('The Marriage Story', 2019,4);
+       
+ -- List all movie stars and their marital status
+SELECT name, marital_status FROM movie_stars;
+
+-- List all movies with their title and year, along with the name of the actor who starred in it
+SELECT movies.title, movies.year, movie_stars.name FROM movies INNER JOIN movie_stars ON movies.actor_id=movie_stars.id;
+
+-- List all movie stars who have acted in a movie made before the year 2000
+SELECT movie_stars.name FROM movie_stars JOIN movies ON movie_stars.id=movies.actor_id WHERE movies.year < 2000;
+
+-- List all Scarlett Johansson movies with title and year
+SELECT movies.title, movies.year FROM movies JOIN movie_stars ON movies.actor_id=movie_stars.id WHERE movie_stars.name= 'Scarlett Johansson'
