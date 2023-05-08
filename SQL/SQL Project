@@ -1,0 +1,80 @@
+#1. Show all customers who are outside of the United States
+SELECT FirstName, LastName, CustomerId, Country 
+FROM chinook.customers
+WHERE Country != 'USA';
+
+#2. Show all customers in Brazil
+SELECT FirstName, LastName, CustomerId    
+FROM customers 
+WHERE Country = 'Brazil';
+
+#3. Find the Invoices of customers who are from Brazil. 
+SELECT customers.FirstName, customers.LastName, 
+invoices.InvoiceId, invoices.InvoiceDate, invoices.BillingCountry
+FROM customers LEFT JOIN invoices
+ON customers.CustomerId = invoices.CustomerId
+WHERE customers.Country = 'Brazil';
+
+#4. Show the Employees who are Sales Agents.
+SELECT * 
+FROM employees
+WHERE Title = 'Sales Support Agent';
+
+#5. Find a udistinct list of billing countries from the Invoice table.
+SELECT DISTINCT BillingCountry
+FROM invoices ;
+
+#6. Provide a query that shows the invoices associated with each sales agent. 
+SELECT employees.FirstName, employees.LastName, invoices.InvoiceId
+FROM employees 
+JOIN customers ON employees.EmployeeId= customers.SupportRepId
+JOIN invoices ON customers.CustomerId = invoices.CustomerId;
+
+#7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+SELECT invoices.Total, customers.FirstName, customers.LastName, customers.Country, 
+employees.FirstName, employees.LastName
+FROM invoices  
+JOIN customers ON invoices.CustomerId= customers.CustomerId
+JOIN employees ON customers.SupportRepId = employees.EmployeeId;
+
+#8. How many Invoices were there in 2009?
+SELECT COUNT(InvoiceId)
+FROM invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+#9.What are the total sales for 2009?
+SELECT SUM(Total)
+FROM invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+#10. Write a query that includes the purchased track name with each invoice ID.
+SELECT tracks.Name, Invoices.InvoiceId
+FROM tracks
+JOIN invoice_items ON tracks.TrackId = invoice_items.TrackId
+JOIN invoices ON invoice_items.InvoiceId = invoices.InvoiceId;
+
+#11. Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT tracks.Name AS Title , albums.Title AS Album,
+ media_types.Name AS Media_Type, genres.Name AS Genre
+FROM tracks
+JOIN albums ON tracks.AlbumId = albums.AlbumId
+JOIN media_types ON tracks.MediaTypeId = media_types.MediaTypeId
+JOIN genres ON tracks.GenreId = genres.GenreId;
+
+#12. Show the total sales made by each sales agent.
+SELECT employees.FirstName , employees.LastName, ROUND (SUM(invoices.Total)) AS Total_Sales 
+FROM invoices 
+JOIN customers ON invoices.CustomerId = customers.CustomerId
+JOIN employees on customers.SupportRepId = employees.EmployeeId
+GROUP BY employees.FirstName, employees.LastName;
+
+#13. Which sales agent made the most dollars in sales in 2009?
+SELECT employees.FirstName , employees.LastName, ROUND (SUM(invoices.Total)) AS Total_sales 
+FROM invoices 
+JOIN customers ON invoices.CustomerId = customers.CustomerId
+JOIN employees on customers.SupportRepId = employees.EmployeeId
+WHERE invoices.InvoiceDate LIKE '2009%'
+GROUP BY employees.FirstName, employees.LastName
+ORDER BY Total_sales DESC
+
+
