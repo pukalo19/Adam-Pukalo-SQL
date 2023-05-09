@@ -77,4 +77,19 @@ WHERE invoices.InvoiceDate LIKE '2009%'
 GROUP BY employees.FirstName, employees.LastName
 ORDER BY Total_sales DESC
 
+#14. Show track name and artist of the most purchased song
+SELECT tracks.Name AS Title, artists.Name AS Artist, COUNT(invoice_items.TrackId) AS Times_Purchanced
+FROM tracks
+JOIN albums ON tracks.AlbumId = albums.AlbumId
+JOIN artists ON albums.ArtistId = artists.ArtistId
+JOIN invoice_items ON tracks.TrackId = invoice_items.TrackId
+GROUP BY tracks.Name, artists.Name
+ORDER BY COUNT(invoice_items.TrackId) DESC LIMIT 1
+
+#15. Which countries purchased the most tracks
+SELECT BillingCountry, COUNT(InvoiceId)
+FROM invoices
+GROUP BY BillingCountry
+ORDER BY COUNT(InvoiceId) DESC LIMIT 5
+
 
